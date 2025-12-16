@@ -23,5 +23,3 @@ data:
   {{- if .Values.env.STORAGE_MYSQL_PASS }}
   STORAGE_MYSQL_PASS: {{ .Values.env.STORAGE_MYSQL_PASS }}
   {{ end }}
-
-

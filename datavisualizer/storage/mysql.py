@@ -81,4 +81,3 @@ class MySQLStorage(AbstractStorage):
         for row in rows:
             result.append(dict(id=row[0], topic=row[1], message=row[2]))
         return result
-

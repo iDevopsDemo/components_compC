@@ -18,5 +18,3 @@ class DummyStorage(AbstractStorage):
                 dict(topic='Topic2', message='Message2'),
                 dict(topic='Topic3', message='Message3')]
         return items
-        
-
