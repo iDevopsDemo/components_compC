@@ -1,0 +1,5 @@
+#Issue with flask_table and latest version of flask https://github.com/plumdog/flask_table/issues/137
+#for now we just pin flask to < 3.0.0
+flask < 3.0.0
+flask_table
+mysql-connector-python

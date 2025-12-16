@@ -1,0 +1,50 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "comp-c.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- $host := (tpl .Values.ingress.host .) -}}
+{{- $secretName := $host | replace "." "-" -}}
+{{- $nineteen := (semverCompare ">=1.19-0" .Capabilities.KubeVersion.Version) -}}
+
+{{- if $nineteen -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "comp-c.labels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    {{- if .Values.ingress.tls }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certificateIssuer }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ $host }}
+      secretName: {{ $secretName }}
+  {{- end }}
+  rules:
+    - host: {{ tpl .Values.ingress.host . | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              {{- if $nineteen }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  {{- if typeIs "string" $svcPort }}
+                  name: {{ $svcPort }}
+                  {{- else if or (typeIs "int" $svcPort) (typeIs "float64" $svcPort)}}
+                  number: {{ int $svcPort }}
+                  {{- end }}
+              {{- else }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+{{- end }}

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "comp-c.fullname" . }}
+  labels:
+    {{- include "comp-c.labels" . | nindent 4 }}
+data:
+  {{- if .Values.env.DATACOLLECTOR_STORAGE }}
+  DATACOLLECTOR_STORAGE: {{ .Values.env.DATACOLLECTOR_STORAGE }}
+  {{ end }}
+  {{- if .Values.env.STORAGE_MYSQL_HOST }}
+  STORAGE_MYSQL_HOST: {{ tpl .Values.env.STORAGE_MYSQL_HOST . }}
+  {{ end }}
+  {{- if .Values.env.STORAGE_MYSQL_PORT }}
+  STORAGE_MYSQL_PORT: {{ .Values.env.STORAGE_MYSQL_PORT | quote }}
+  {{ end }}
+  {{- if .Values.env.STORAGE_MYSQL_DB }}
+  STORAGE_MYSQL_DB: {{ .Values.env.STORAGE_MYSQL_DB }}
+  {{ end }}
+  {{- if .Values.env.STORAGE_MYSQL_USER }}
+  STORAGE_MYSQL_USER: {{ .Values.env.STORAGE_MYSQL_USER }}
+  {{ end }}
+  {{- if .Values.env.STORAGE_MYSQL_PASS }}
+  STORAGE_MYSQL_PASS: {{ .Values.env.STORAGE_MYSQL_PASS }}
+  {{ end }}
+
+
