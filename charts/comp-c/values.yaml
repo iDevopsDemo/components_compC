@@ -23,7 +23,7 @@ env:
 
 ingress:
   enabled: false
-  tls: false #if tls set to enabled cert-manager is expected.
+  tls: false
   host: example.edge.mydevops.info
   certificateIssuer: "letsencrypt-prod"
 
