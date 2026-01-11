@@ -19,11 +19,11 @@ service:
 env:
   DATACOLLECTOR_STORAGE: "mysql"
   STORAGE_MYSQL_HOST: "mysql"
-  STORAGE_MYSQL_DB: "xo-sample"
+  STORAGE_MYSQL_DB: "mqtt-broker-app"
 
 ingress:
   enabled: false
-  tls: false #if tls set to enabled cert-manager is expected.
+  tls: false
   host: example.edge.mydevops.info
   certificateIssuer: "letsencrypt-prod"
 
